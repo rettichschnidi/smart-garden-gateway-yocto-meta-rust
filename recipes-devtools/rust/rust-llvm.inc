@@ -1,7 +1,9 @@
 SUMMARY = "LLVM compiler framework (packaged with rust)"
 LICENSE ?= "Apache-2.0-with-LLVM-exception"
 
-SRC_URI += "file://0002-llvm-allow-env-override-of-exe-path.patch"
+SRC_URI += "file://0001-nfc-Fix-missing-include.patch;striplevel=2 \
+            file://0002-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
+            "
 
 S = "${RUSTSRC}/src/llvm-project/llvm"
 
@@ -14,7 +16,6 @@ DEPENDS += "ninja-native rust-llvm-native"
 ARM_INSTRUCTION_SET_armv5 = "arm"
 ARM_INSTRUCTION_SET_armv4t = "arm"
 
-LLVM_RELEASE = "6.0"
 LLVM_DIR = "llvm${LLVM_RELEASE}"
 
 EXTRA_OECMAKE = " \

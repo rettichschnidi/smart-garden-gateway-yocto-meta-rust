@@ -46,6 +46,7 @@ oe_cargo_build () {
 	"${CARGO}" build ${CARGO_BUILD_FLAGS} "$@"
 }
 
+do_compile[progress] = "outof:\s+(\d+)/(\d+)"
 cargo_do_compile () {
 	oe_cargo_fix_env
 	oe_cargo_build
@@ -59,6 +60,17 @@ cargo_do_install () {
 			install -d "${D}${rustlibdir}"
 			install -m755 "$tgt" "${D}${rustlibdir}"
 			have_installed=true
+			;;
+		*examples)
+			if [ -d "$tgt" ]; then
+				for example in "$tgt/"*; do
+					if [ -f "$example" ] && [ -x "$example" ]; then
+						install -d "${D}${bindir}"
+						install -m755 "$example" "${D}${bindir}"
+						have_installed=true
+					fi
+				done
+			fi
 			;;
 		*)
 			if [ -f "$tgt" ] && [ -x "$tgt" ]; then
